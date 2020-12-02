@@ -1,1 +1,111 @@
 
+import random
+
+
+heigh = 5
+wide = 5
+minesMax = 5
+
+
+#Mines
+def mines(max):
+    nMine = random.randint(2,minesMax)
+    return nMine
+print("There is",mines(minesMax),"land-mines")
+
+#MinesLocation
+def _mines_(heigh, wide):
+
+    listOflist=[]
+
+    for i in range(heigh):
+        listRow=[]
+
+        for j in range(wide):
+            listRow.append(0)
+        listOflist.append(listRow)
+        
+    return listOflist
+
+#RandomizerForMines
+
+def minesPos(list):
+    c = random.randint(2,heigh)-1
+    d = random.randint(2,wide)-1
+
+    list[c][d]="0"
+
+#GameContainer
+def _init_(heigh, wide):
+
+    listOflist=[]
+
+    for i in range(heigh):
+        listRow=[]
+
+        for j in range(wide):
+            listRow.append("X")
+        listOflist.append(listRow)
+        
+    return listOflist
+
+#Player Moves
+def modifyTableau(list,mines):
+    pasPerdu=True
+    a = int(input("Enter a line between 0 and 4 :"))
+    b = int(input("Enter a column between 0 and 4 : "))
+    if (mines[a][b]==1):
+
+        print("You blew up, how infortunate ¯\_(ツ)_/¯ ")
+        pasPerdu=False
+    compteur=0
+    if (a>0 and b>0 and mines[a-1][b-1]==1):
+        compteur+=1
+    if (a<wide-1 and b<heigh-1 and mines[a+1][b+1]==1):
+        compteur+=1
+    if (a>wide-1 and b<heigh-1 and mines[a-1][b+1]==1):
+        compteur+=1
+    if (a<wide-1 and b>heigh-1 and mines[a+1][b-1]==1):
+        compteur+=1
+    if (a>wide-1 and mines[a+1][b]==1):
+        compteur+=1
+    if (a<wide-1 and mines[a-1][b]==1):
+        compteur+=1
+    if (b<heigh-1 and mines[a][b-1]==1):
+        compteur+=1
+    if (b>heigh-1 and mines[a][b+1]==1):
+        compteur+=1
+
+    list[a][b]=compteur
+
+    return pasPerdu
+
+#Text Return
+
+
+def affiche(tableau):
+    for i in tableau:
+        print(i)
+
+def placerMines(mines):
+    for i in range(minesMax): 
+     x = random.randrange(1,5) 
+     y = random.randrange(1,5) 
+     mines[x][y] = 1
+    print()
+
+# End Game Stats
+
+def demineur():
+    liste = _init_(heigh,wide)
+    mines = _mines_(heigh,wide)
+    placerMines(mines)
+    pasPerdu=True
+    while (pasPerdu):
+        pasPerdu=modifyTableau(liste,mines)
+        affiche(liste)
+
+demineur()
+
+
+
